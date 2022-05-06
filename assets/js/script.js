@@ -1,3 +1,5 @@
+var tasks = [];
+
 var formEl = document.querySelector('#task-form');
 var tasksToDoEl = document.querySelector('#tasks-to-do');
 var taskIdCounter = 0;
@@ -19,10 +21,7 @@ var taskFormHandler = function(event) {
     //package up data as an object
     var isEdit = formEl.hasAttribute("data-task-id");
 
-    var taskDataObj = {
-        name: taskNameInput,
-        type: taskTypeInput
-        };
+
     //send it as an argument to createtaskEl
     //has data attribute, so get task id and call function to complete edit process
    if(isEdit) {
@@ -33,13 +32,16 @@ var taskFormHandler = function(event) {
    else {
        var taskDataObj = {
             name: taskNameInput,
-            type: taskTypeInput
+            type: taskTypeInput,
+            status: "to do"
        };
     createTaskEl(taskDataObj);
    }
 };
 
 var createTaskEl = function(taskDataObj) {
+    console.log(taskDataObj);
+    console.log(taskDataObj.status);
     // create list item
     var listItemEl = document.createElement("li");
     listItemEl.className = "task-item";
@@ -52,6 +54,8 @@ var createTaskEl = function(taskDataObj) {
     taskInfoEl.innerHTML = "<h3 class='task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
 
     listItemEl.appendChild(taskInfoEl);
+    taskDataObj.id = taskIdCounter;
+    tasks.push(taskDataObj);
 
     var taskActionsEl = createTaskActions(taskIdCounter);
     listItemEl.appendChild(taskActionsEl);
